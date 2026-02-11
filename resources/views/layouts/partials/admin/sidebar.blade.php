@@ -8,12 +8,6 @@
         'active' => request()->routeIs('admin.dashboard'),
         'can' => ['access_dashboard']
     ],
-    // [
-    //     'icon' => 'fa-solid fa-calendar-check',
-    //     'name' => 'Citas',
-    //     'route' => route ('admin.dashboard'),
-    //     'active' => request()->routeIs('admin.dashboard')
-    // ],
     [
         'icon' => 'fa-solid fa-users',
         'name' => 'Usuarios',
@@ -92,12 +86,6 @@
         'active' => request()->routeIs('client.appointments.*'),
         'can' => ['client.appointments.create']
     ],
-    // [
-    //     'icon' => 'fa-solid fa-calendar-days',
-    //     'name' => 'Mis Citas',
-    //     'route' => route ('admin.dashboard'),
-    //     'active' => request()->routeIs('admin.dashboard')
-    // ],
     [
         'icon' => 'fa-solid fa-store',
         'name' => 'Mis Apartados',
@@ -105,13 +93,6 @@
         'active' => request()->routeIs('client.reservations.*'),
         'can' => ['client.reservations.view']
     ],
-    // [
-    //     'icon' => 'fa-solid fa-cart-shopping',
-    //     'name' => 'Carrito',
-    //     'route' => route ('client.carts.index'),
-    //     'active' => request()->routeIs('client.carts.*'),
-    //     'can' => ['client.cart.use']
-    // ],
 ];
 @endphp
 
