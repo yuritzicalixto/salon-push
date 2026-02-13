@@ -9,7 +9,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        {{-- NOTIFICACIONES PUSH --}}
+        <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        {{-- NOTIFICACIONES PUSH --}}
+
         <title>{{ config('app.name', 'Laravel') }}</title>
+
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -86,5 +94,7 @@
     @endif
 
     @stack('js')
+    @include('layouts.partials.push-scripts')
+
     </body>
 </html>

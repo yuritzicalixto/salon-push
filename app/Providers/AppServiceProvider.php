@@ -23,5 +23,14 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         User::observe(UserObserver::class);
+
+        // Fix OpenSSL para XAMPP en Windows
+    // Necesario para que web-push pueda encriptar las notificaciones
+    if (PHP_OS_FAMILY === 'Windows') {
+        $opensslConf = 'C:\\xampp\\apache\\conf\\openssl.cnf';
+        if (file_exists($opensslConf)) {
+            putenv("OPENSSL_CONF={$opensslConf}");
+        }
+    }
     }
 }

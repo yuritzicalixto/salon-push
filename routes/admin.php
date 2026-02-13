@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -42,3 +43,9 @@ Route::post('reservations/expire-all', [ReservationController::class, 'expireAll
 // APARTADOS
 Route::resource('reservations', ReservationController::class)
     ->middleware('can:reservations.manage');
+
+
+// NOTIFICACIONES PUSH
+Route::resource('notifications', NotificationController::class)
+    ->only(['index', 'create', 'store', 'show'])
+    ->middleware('can:notifications.manage');

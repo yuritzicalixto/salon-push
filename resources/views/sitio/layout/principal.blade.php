@@ -2,6 +2,12 @@
 <html lang="es">
 <head>
      @include('sitio.includes.head')
+     {{-- NOTIFICACIONES PUSH --}}
+        {{-- <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> --}}
+        {{-- NOTIFICACIONES PUSH --}}
 </head>
 <body>
 
@@ -62,5 +68,7 @@
     </script>
        <!-- JavaScript -->
   @include('sitio.includes.scripts')
+  @include('layouts.partials.push-scripts')
+
 </body>
 </html>

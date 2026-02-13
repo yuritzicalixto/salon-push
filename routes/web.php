@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PushSubscriptionController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -38,3 +40,10 @@ Route::get('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::
 Route::post('/login', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store']);
 Route::get('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
+
+
+// Push Notification Subscriptions (para todos los usuarios autenticados)
+Route::middleware('auth')->group(function () {
+    Route::post('/push-subscriptions', [PushSubscriptionController::class, 'store']);
+    Route::delete('/push-subscriptions', [PushSubscriptionController::class, 'destroy']);
+});

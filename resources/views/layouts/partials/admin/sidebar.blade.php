@@ -43,12 +43,13 @@
         'active' => request()->routeIs('admin.reservations.*'),
         'can' => ['reservations.manage']
     ],
-    // [
-    //     'icon' => 'fa-solid fa-bell',
-    //     'name' => 'Notificaciones',
-    //     'route' => route ('admin.dashboard'),
-    //     'active' => request()->routeIs('admin.dashboard')
-    // ],
+    [
+        'icon' => 'fa-solid fa-bell',
+        'name' => 'Notificaciones',
+        'route' => route('admin.notifications.index'),
+        'active' => request()->routeIs('admin.notifications.*'),
+        'can' => ['notifications.manage']
+    ],
     // [
     //     'icon' => 'fa-solid fa-percent',
     //     'name' => 'Promociones',
