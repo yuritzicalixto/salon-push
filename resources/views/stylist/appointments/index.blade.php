@@ -167,7 +167,8 @@
                     @else
                         <div class="divide-y divide-gray-100 dark:divide-gray-700">
                             @foreach($dayAppointments as $appointment)
-                                <div class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                                <a href="{{ route('stylist.appointments.index', ['view' => 'day', 'date' => $appointment->date->format('Y-m-d')]) }}"
+   class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors cursor-pointer">
                                     {{-- Hora --}}
                                     <div class="flex-shrink-0 w-20 text-right">
                                         <p class="text-sm font-mono font-semibold text-gray-800 dark:text-white">
@@ -202,7 +203,7 @@
                                           style="background: {{ $appointment->status_color }}15; color: {{ $appointment->status_color }};">
                                         {{ $statusLabels[$appointment->status] ?? ucfirst($appointment->status) }}
                                     </span>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     @endif
