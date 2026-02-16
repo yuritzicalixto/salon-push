@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Notifications\ReservationConfirmation;
 
 class ReservationController extends Controller
 {
@@ -119,6 +120,12 @@ class ReservationController extends Controller
 
             return $reservation;
         });
+
+        // Enviar notificación push de confirmación
+        if (Auth::user()->pushSubscriptions()->exists()) {
+            $reservation->load('items.product'); // Cargar items para el mensaje
+            Auth::user()->notify(new ReservationConfirmation($reservation));
+        }
 
         // Redirigir a la pantalla de éxito/confirmación del apartado
         return redirect()

@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Stylist;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Notifications\AppointmentConfirmation;
 
 class AppointmentController extends Controller
 {
@@ -135,7 +136,7 @@ class AppointmentController extends Controller
         }
 
         // 8. Crear la cita
-        Appointment::create([
+        $appointment = Appointment::create([
             'client_id'  => Auth::id(),
             'service_id' => $validated['service_id'],
             'stylist_id' => $validated['stylist_id'],
@@ -145,6 +146,13 @@ class AppointmentController extends Controller
             'status'     => 'pending',
             'notes'      => $validated['notes'] ?? null,
         ]);
+
+        // 9. Enviar notificación push de confirmación
+        if (Auth::user()->pushSubscriptions()->exists()) {
+            $appointment->load('service');
+            Auth::user()->notify(new AppointmentConfirmation($appointment));
+        }
+
 
         return redirect()
             ->route('client.appointments.index')
