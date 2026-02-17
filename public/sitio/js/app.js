@@ -60,17 +60,18 @@ function addToCart(product) {
   const existingItem = cart.find(item => item.id === product.id);
 
   if (existingItem) {
-    // Si ya está en el carrito, solo aumenta cantidad
-    existingItem.quantity += 1;
-  } else {
-    // Si es un producto nuevo, verificar el límite de 5
-    if (cart.length >= 5) {
-      showLimitToast();
-      return; // No agregar, ya alcanzó el límite
-    }
-    cart.push({ ...product, quantity: 1 });
+    // Si ya está en el carrito, avisar al usuario
+    showAlreadyInCartToast(product.name);
+    return;
   }
 
+  // Si es un producto nuevo, verificar el límite de 5
+  if (cart.length >= 5) {
+    showLimitToast();
+    return;
+  }
+
+  cart.push({ ...product, quantity: 1 });
   saveCart();
   updateCartUI();
   showAddedToast(product.name);
@@ -148,11 +149,6 @@ function updateCartUI() {
           <div class="cart-item__info">
             <h4 class="cart-item__name">${item.name}</h4>
             <p class="cart-item__price">$${item.price}</p>
-            <div class="cart-item__qty">
-              <button type="button" class="qty-btn" onclick="updateQuantity('${item.id}', -1)">−</button>
-              <span>${item.quantity}</span>
-              <button type="button" class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
-            </div>
           </div>
           <button type="button" class="cart-item__remove" onclick="removeFromCart('${item.id}')" aria-label="Eliminar">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,6 +207,28 @@ function showLimitToast() {
   }, 3000);
 }
 
+// Show already in cart toast
+function showAlreadyInCartToast(productName) {
+  const existingToast = document.querySelector('.toast');
+  if (existingToast) existingToast.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'toast toast--warning';
+  toast.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+    </svg>
+    <span>${productName} ya está en el carrito</span>
+  `;
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
 // Add to cart buttons
 document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
@@ -230,9 +248,26 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
 // Clear cart button
 clearCartBtn?.addEventListener('click', () => {
   if (cart.length > 0) {
-    if (confirm('¿Estás seguro de vaciar el carrito?')) {
-      clearCart();
-    }
+    Swal.fire({
+      title: '¿Vaciar el carrito?',
+      text: 'Se eliminarán todos los productos agregados.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a1a1a',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Sí, vaciar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearCart();
+        Swal.fire({
+          title: '¡Carrito vaciado!',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    });
   }
 });
 

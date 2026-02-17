@@ -67,6 +67,7 @@
         window.reservationCreateUrl = "/client/reservations/create";
     </script>
        <!-- JavaScript -->
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @include('sitio.includes.scripts')
   @include('layouts.partials.push-scripts')
 
